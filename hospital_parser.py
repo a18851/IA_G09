@@ -29,7 +29,7 @@ def parse_dataset(dataset):
                 break
 
             room_id = words[0]
-            room_name = ' '.join(words[1:-3])  # Unir os elementos restantes como nome da sala
+            room_name = ' '.join(words[1:-3])
             room_capacity = words[-3]
             room_department = words[-1]
 
