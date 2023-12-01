@@ -38,30 +38,39 @@ class RoomGenderLimitationConstraint(Constraint):
 
     def satisfied(self, assignment):
         for p in self.variables:
-            patient_gender = assignment[patient_gender_variable(p)]  # Replace with actual variable
-            room_gender = assignment[room_gender_variable(p)]  # Replace with actual variable
+            # Verifique se o paciente está no dicionário antes de acessar para evitar erros
+            if p in patients:
+                patient_gender = patients[p]['gender']
+                room_gender_variable = self.room_gender_variable(p)  # Substitua com o método real
+                room_gender = assignment.get(room_gender_variable)  # Usando get para evitar KeyError
 
-            if room_gender == "female" and patient_gender != "female":
-                return False
-            elif room_gender == "male" and patient_gender != "male":
-                return False
-
-        return True
-
-class EquipmentRoomAssignmentConstraint(Constraint):
-    def __init__(self, patients, rooms):
-        super().__init__(patients)
-        self.rooms = rooms
-
-    def satisfied(self, assignment):
-        for p in self.variables:
-            required_equipment = get_required_equipment(p)  # Replace with actual function
-            assigned_room = assignment[patient_room_variable(p)]  # Replace with actual variable
-
-            if required_equipment not in assigned_room_equipment(assigned_room):
-                return False
+                if room_gender is not None:
+                    if room_gender == "female" and patient_gender != "female":
+                        return False
+                    elif room_gender == "male" and patient_gender != "male":
+                        return False
+                else:
+                    print(f"Room gender variable not found for patient {p}.")
+            else:
+                print(f"Patient with ID {p} not found.")
 
         return True
+
+
+# class EquipmentRoomAssignmentConstraint(Constraint):
+#     def __init__(self, patients, rooms):
+#         super().__init__(patients)
+#         self.rooms = rooms
+
+#     def satisfied(self, assignment):
+#         for p in self.variables:
+#             required_equipment = get_required_equipment(p)  # Replace with actual function
+#             assigned_room = assignment[patient_room_variable(p)]  # Replace with actual variable
+
+#             if required_equipment not in assigned_room_equipment(assigned_room):
+#                 return False
+
+#         return True
 
 class DepartmentSpecializationConstraint(Constraint):
     def __init__(self, patients, departments):
