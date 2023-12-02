@@ -2,19 +2,19 @@ from csp import *
 from hospital_parser import parse_dataset
 import time
 
-# start_time of execution
+# Start time of execution
 start_time = time.time()
 
 # Define Domains for Variables
 Domain = {}
 
-B = {'b{}'.format(i) for i in range(1, 17)}  # qtt camas
-S = {'S.{:02d}'.format(i) for i in range(0, 30)}  # qtt slots
-P = {'p{}'.format(i) for i in range(1, 40)}  # qtt pacientes
-Ab = {0, 1}  # cama ocupada
-Rps = {'Rps.{:02d}'.format(i) for i in range(0, 30)}  # start dia mês cama ocupada
-Rpd = {'Rpd.{:02d}'.format(i) for i in range(0, 20)}  # dias cama ocupada
-Xpb = {0, 1}  # Paciente ocupa cama
+B = {'b{}'.format(i) for i in range(1, 17)}  # Quantity of beds
+S = {'S.{:02d}'.format(i) for i in range(0, 30)}  # Quantity of slots
+P = {'p{}'.format(i) for i in range(1, 40)}  # Quantity of patients
+Ab = {0, 1}  # Bed occupied
+Rps = {'Rps.{:02d}'.format(i) for i in range(0, 30)}  # Start day of the month bed is occupied
+Rpd = {'Rpd.{:02d}'.format(i) for i in range(0, 20)}  # Days bed is occupied
+Xpb = {0, 1}  # Patient occupies bed
 
 Domain.update({
     'B': B,
@@ -34,22 +34,33 @@ departments, rooms, beds, patients = parse_dataset(dataset)
 
 restrictions = []
 
-#region Constraints
 
-# ...
+patients_matrix = [[0 for _ in beds] for _ in patients]
+
+# Populate the matrix based on patient-bed assignments
+for p in patients:
+    for b in beds:
+        patients_matrix[p - 1][int(b[1:]) - 1] = (p, b) in Xpb
+
+
+
+
+#region Constraints
 
 class PatientBedAssignmentConstraint(Constraint):
     def __init__(self, patients, beds):
-        super().__init__([Xpb[p, b] for p in patients for b in beds])
+        super().__init__([(p, b) for p in patients for b in beds])
         self.patients = patients
         self.beds = beds
 
     def satisfied(self, assignment):
         for p in self.patients:
-            bed_assigned = [assignment[Xpb[p, b]] for b in self.beds]
+            bed_assigned = [assignment[(p, b)] for b in self.beds]
             if sum(bed_assigned) != 1:
                 return False
         return True
+
+
 
 class RoomGenderLimitationConstraint(Constraint):
     def __init__(self, rooms, patients):
@@ -61,7 +72,7 @@ class RoomGenderLimitationConstraint(Constraint):
         for p in self.patients:
             if p in patients:
                 patient_gender = patients[p]['gender']
-                room_gender_variable = self.room_gender_variable(p)  
+                room_gender_variable = self.room_gender_variable(p)
                 room_gender = assignment.get(room_gender_variable, None)
 
                 if room_gender is not None:
@@ -75,11 +86,9 @@ class RoomGenderLimitationConstraint(Constraint):
                 print(f"Patient with ID {p} not found.")
 
         return True
-# ...
 
 
-
-#endregion
+# endregion
 
 restrictions.append(PatientBedAssignmentConstraint(patients, beds))
 restrictions.append(RoomGenderLimitationConstraint(rooms, patients))
