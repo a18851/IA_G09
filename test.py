@@ -174,15 +174,15 @@ domains = {
     'patient20': {1, 2, 3, 4, 5, 6, 7, 8},
 }
 
-def day_assignment(*patients):
-    for p1 in set(patients):
-        for p2 in set(patients):
-            if patients_data[p1]['admission_day'] > patients_data[p2]['discharge_day']: return True
-            else: False
-    
-constraints = [
-    Constraint(patients, day_assignment)
-]
+
+constraints = []
+
+def day_assignment(patients):
+    for p1 in patients:
+        for p2 in patients:
+            if p1 != p2:
+                constraints.append(Constraint(patients, lambda a = patients_data[p1]['admission_day'], b = patients_data[p2]['discharge_day'] , c= patients_data[p2]['admission_day'], d= patients_data[p1]['discharge_day']: a > b or c > d))
+
 
 # Create CSP instance
 csp = NaryCSP(domains, constraints)
