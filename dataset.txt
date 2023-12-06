@@ -25,7 +25,7 @@ BEDS: ID_bed + ID_room
 07 22
 08 22
 
-PATIENTS: ID + name + age + gender + admission_day + DIscharge_day
+PATIENTS: ID + name + age + gender + admission_day + discharge_day
 1 Patient1 98 M 0 0
 2 Patient2 82 M 0 5
 3 Patient3 43 M 0 1

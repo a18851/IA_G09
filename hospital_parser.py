@@ -1,3 +1,5 @@
+from csp import *
+
 def parse_dataset(dataset):
     departments = []
     rooms = {}
@@ -33,14 +35,23 @@ def parse_dataset(dataset):
             room_capacity = words[-3]
             room_department = words[-1]
 
-            rooms[room_id] = {'name': room_name, 'capacity': int(room_capacity), 'department': int(room_department)}
+            rooms[room_id] = {
+                'name': room_name, 
+                'capacity': int(room_capacity), 
+                'department': int(room_department),
+            }
 
         elif current_section == 'BEDS':
             if words[0] == 'END.':
                 break
 
             bed_id, bed_room_id = words
-            beds[bed_id] = {'room': bed_room_id}
+            # Remove leading zeros from bed_id
+            bed_id = int(bed_id)
+
+            beds[bed_id] = {
+                'room': bed_room_id,
+            }
 
         elif current_section == 'PATIENTS':
             if words[0] == 'END.':
@@ -56,5 +67,3 @@ def parse_dataset(dataset):
             }
 
     return departments, rooms, beds, patients
-
-
