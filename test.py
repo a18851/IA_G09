@@ -175,19 +175,21 @@ domains = {
 }
 
 
+
 constraints = []
 
 def day_assignment(patients):
     for p1 in patients:
+        print(p1)
         for p2 in patients:
-            if p1 != p2:
-                constraints.append(Constraint(patients, lambda a = patients_data[p1]['admission_day'], b = patients_data[p2]['discharge_day'] , c= patients_data[p2]['admission_day'], d= patients_data[p1]['discharge_day']: a > b or c > d))
+             if p1 != p2 and patients_data[p1]['admission_day'] > patients_data[p2]['discharge_day'] and patients_data[p2]['admission_day'] > patients_data[p1]['discharge_day']:
+                constraints.append(Constraint(patients, lambda a = domains[f'patient{p1}'], b= domains[f'patient{p2}'] : a != b ))
 
 
 # Create CSP instance
 csp = NaryCSP(domains, constraints)
 
-# # Find a solution using AC solver
+# Find a solution using AC solver
 solution = ac_solver(csp, arc_heuristic=sat_up)
 print("--- {:.2f} seconds ---".format(time.time() - start_time))
 print(solution)
