@@ -1,9 +1,24 @@
 import time
 from csp import *
+from dataset_parser import dataset_parser
 
-start_time = time.time()
 
+# with open("dataset.txt", "r") as file:
+#     dataset = file.read()
+#     bed_rooms, room_departments, patients_data = dataset_parser(dataset)
 
+    
+
+bed_rooms = {
+    1: "11",
+    2: "11",
+    3: "12",
+    4: "12",
+    5: "21",
+    6: "21",
+    7: "22",
+    8: "22"
+}
 
 room_departments = {
     11: {
@@ -21,14 +36,14 @@ room_departments = {
         "oxygen": 1
     },
     21: {
-        "name": "R22",
+        "name": "R21",
         "capac": 2,
         "dept": 2,
         "telemetry": 1,
         "oxygen": 0
     },
     22: {
-        "name": "R23",
+        "name": "R22",
         "capac": 2,
         "dept": 2,
         "telemetry": 1,
@@ -178,7 +193,7 @@ patients_data = {
         "gender": "M",
         "admission_day": 9,
         "discharge_day": 15,
-        "dept": 0,
+        "dept": 1,
         "telemetry": 0,
         "oxygen": 0
     },
@@ -222,52 +237,79 @@ patients_data = {
 
 #Variables
 
-days = [f'day{i}' for i in range(0, 20)]
 beds = [f'bed{i}' for i in range(1, 9)]
-patients = [f'patient{i}' for i in range(1, len(patients_data))]
-
-
-domains = {
-    'patient1':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient2':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient3':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient4':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient5':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient6':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient7':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient8':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient9':  {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient10': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient11': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient12': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient13': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient14': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient15': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient16': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient17': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient18': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient19': {1, 2, 3, 4, 5, 6, 7, 8},
-    'patient20': {1, 2, 3, 4, 5, 6, 7, 8},
-}
-
-
+patients = [f'patient{i}' for i in range(1, len(patients_data) + 1)]
+domains = {f'patient{i}': set(range(1, 9)) for i in range(1, 21)}
+for key, value in domains.items():
+    print(f'{key}: {value}')
+# Department
 for p in range(1, len(patients_data) + 1):
-    if patients_data[p]['dept'] == 1:
-        domains[f"patient{p}"] = {1, 2, 3, 4}
-    elif patients_data[p]['dept'] == 2:
-        domains[f"patient{p}"] = {5, 6, 7, 8}
+    for room_number, room_info in room_departments.items():
+        if patients_data[p]['dept'] == 1 and room_info['dept'] == 2:
+            matching_beds = [bed_number for bed_number, value in bed_rooms.items() if value == str(room_number)]
+            for bed_number in matching_beds:
+                domains[f"patient{p}"].discard(bed_number)
+        elif patients_data[p]['dept'] == 2 and room_info['dept'] == 1:
+            matching_beds = [bed_number for bed_number, value in bed_rooms.items() if value == str(room_number)]
+            for bed_number in matching_beds:
+                domains[f"patient{p}"].discard(bed_number)
+
+
+for key, value in domains.items():
+    print(f'{key}: {value}')
+## Telemetry
+for p in range(1, len(patients_data) + 1):
+    for room_number, room_info in room_departments.items():
+         if room_info['telemetry'] == 0 and patients_data[p]['telemetry'] == 1:
+             matching_beds = [bed_number for bed_number, value in bed_rooms.items() if value == str(room_number)]
+             for bed_number in matching_beds:
+                 domains[f"patient{p}"].discard(bed_number)
+
+for key, value in domains.items():
+    print(f'{key}: {value}')
+
+# Oxygen
+for p in range(1, len(patients_data) + 1):
+    for room_number, room_info in room_departments.items():
+        if room_info['oxygen'] == 0 and patients_data[p]['oxygen'] == 1:
+            matching_beds = [bed_number for bed_number, value in bed_rooms.items() if value == str(room_number)]
+            for bed_number in matching_beds:
+                domains[f"patient{p}"].discard(bed_number)
+                
+for key, value in domains.items():
+    print(f'{key}: {value}')
 
 constraints = []
 
+#Constraint_day
 for p1 in range(1, len(patients) + 1):
     for p2 in range(1, len(patients) + 1):
         if p1 != p2 and not (patients_data[p1]['admission_day'] > patients_data[p2]['discharge_day'] or patients_data[p2]['admission_day'] > patients_data[p1]['discharge_day']):
             constraints.append(Constraint([f'patient{p1}', f'patient{p2}'], lambda a, b: a != b))
+
+
+# Impressão das constraints formatadas
+print("# Constraint: Pacientes não podem ocupar a mesma cama simultaneamente")
+for constraint in constraints:
+    print(constraint)
+
+#Genero
+# for p1 in range(1, len(patients) + 1):
+#      for p2 in range(1, len(patients) + 1):
+#          if p1 != p2 and not(patients_data[p1]["gender"] == patients_data[p2]["gender"]):
+#              constraints.append(Constraint([f'patient{p1}', f'patient{p2}'], lambda a, b: a != b))
 
 # Create CSP instance
 csp = NaryCSP(domains, constraints)
 
 # Find a solution using AC solvers
 solution = ac_solver(csp, arc_heuristic=sat_up)
-print("--- {:.2f} seconds ---".format(time.time() - start_time))
 print(solution)
+
+# # print result
+# for v in set(solution.values()):
+#     print('Cama ', v, end=': ')
+#     for (var, val) in solution.items():
+#         if val == v:
+#              print(var, end=' ')
+#         print()
