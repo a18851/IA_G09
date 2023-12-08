@@ -240,8 +240,7 @@ patients_data = {
 beds = [f'bed{i}' for i in range(1, 9)]
 patients = [f'patient{i}' for i in range(1, len(patients_data) + 1)]
 domains = {f'patient{i}': set(range(1, 9)) for i in range(1, 21)}
-for key, value in domains.items():
-    print(f'{key}: {value}')
+
 # Department
 for p in range(1, len(patients_data) + 1):
     for room_number, room_info in room_departments.items():
@@ -255,8 +254,6 @@ for p in range(1, len(patients_data) + 1):
                 domains[f"patient{p}"].discard(bed_number)
 
 
-for key, value in domains.items():
-    print(f'{key}: {value}')
 ## Telemetry
 for p in range(1, len(patients_data) + 1):
     for room_number, room_info in room_departments.items():
@@ -265,8 +262,7 @@ for p in range(1, len(patients_data) + 1):
              for bed_number in matching_beds:
                  domains[f"patient{p}"].discard(bed_number)
 
-for key, value in domains.items():
-    print(f'{key}: {value}')
+
 
 # Oxygen
 for p in range(1, len(patients_data) + 1):
@@ -276,8 +272,7 @@ for p in range(1, len(patients_data) + 1):
             for bed_number in matching_beds:
                 domains[f"patient{p}"].discard(bed_number)
                 
-for key, value in domains.items():
-    print(f'{key}: {value}')
+
 
 constraints = []
 
@@ -288,10 +283,10 @@ for p1 in range(1, len(patients) + 1):
             constraints.append(Constraint([f'patient{p1}', f'patient{p2}'], lambda a, b: a != b))
 
 
-# Impressão das constraints formatadas
-print("# Constraint: Pacientes não podem ocupar a mesma cama simultaneamente")
-for constraint in constraints:
-    print(constraint)
+# # Impressão das constraints formatadas
+# print("# Constraint: Pacientes não podem ocupar a mesma cama simultaneamente")
+# for constraint in constraints:
+#     print(constraint)
 
 #Genero
 # for p1 in range(1, len(patients) + 1):
