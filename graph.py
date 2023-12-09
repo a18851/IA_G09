@@ -33,14 +33,14 @@ def create_gantt_chart(solution, bed_rooms, patients_data):
 
     ax.xaxis_date()
     ax.xaxis.set_major_locator(mdates.DayLocator())
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m'))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d'))
 
     ax.set_yticks(list(bed_rooms.keys()))
     ax.set_yticklabels(list(bed_rooms.keys()))
 
     ax.set_xlim(left=mdates.date2num(datetime(2023, 1, 1)), right=mdates.date2num(max(task[2] for task in tasks)))
 
-    plt.xlabel('Data')
+    plt.xlabel('Dias')
     plt.ylabel('Camas')
     plt.title('Gráfico de Gantt da Solução do CSP')
 

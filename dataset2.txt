@@ -1,0 +1,125 @@
+ARTICLE BENCHMARK DATA SET
+Departments: 2 
+Rooms: 4
+Beds: 8
+Patients: 20
+Planning horizon: 14
+
+DEPARTMENTS: ID, Name
+1 Dept01
+2 Dept02
+3 Dept03 
+
+ROOMS: ID, name, gen, dept, telemetry, oxygen, 
+11 R11 F 1 1 1
+12 R12 M 1 1 1
+13 R13 F 1 0 0
+14 R14 M 1 0 0
+21 R21 F 2 1 1
+22 R22 M 2 1 1
+23 R23 F 2 0 0
+24 R24 M 2 0 0
+31 R31 B 3 1 1
+
+BEDS: ID_bed + ID_room 
+01 11
+02 11
+03 11
+04 12
+05 12
+06 12
+07 13
+08 13
+09 13
+10 13
+11 14
+12 14
+13 14
+14 14
+15 21
+16 22
+17 23
+18 23
+19 23
+20 24
+21 24
+22 24
+23 31
+24 31
+25 31
+26 31
+27 31
+
+PATIENTS: ID, name, age, gender, admission_day, discharge_day, telemetry, oxygen
+1 Patient1 98 M 0 3 1 1
+2 Patient2 8 M 0 6 0 0
+3 Patient3 3 M 0 9 0 0
+4 Patient4 88 F 1 2 0 0
+5 Patient5 0 M 1 3 0 0
+6 Patient6 65 F 2 3 0 0
+7 Patient7 33 F 2 4 0 0
+8 Patient8 86 F 3 4 0 0
+9 Patient9 22 M 3 5 0 0
+10 Patient10 7 F 1 5 0 0
+11 Patient11 42 M 4 6 1 1
+12 Patient12 3 F 4 6 0 0
+13 Patient13 14 F 1 7 0 0
+14 Patient14 78 M 5 7 0 0
+15 Patient15 8 F 2 8 1 0
+16 Patient16 61 M 6 8 0 0
+17 Patient17 56 M 6 9 0 0
+18 Patient18 106 F 7 9 0 0
+19 Patient19 4 F 8 9 0 0
+20 Patient20 52 F 8 10 0 0
+21 Patient21 2 F 1 11 1 1
+22 Patient22 1 M 9 11 0 0
+23 Patient23 22 M 10 12 0 0
+24 Patient24 3 M 10 13 0 0
+25 Patient25 24 M 11 14 0 0
+26 Patient26 52 M 11 14 0 0
+27 Patient27 63 M 12 14 0 0
+28 Patient28 7 M 12 15 0 0
+29 Patient29 17 F 12 15 0 0
+30 Patient30 20 M 13 15 0 0
+31 Patient31 30 F 13 16 0 0
+32 Patient32 0 M 5 17 0 0
+33 Patient33 50 F 14 17 0 1
+34 Patient34 0 M 15 17 0 1
+35 Patient35 70 F 15 18 1 0
+36 Patient36 8 M 15 18 0 0
+37 Patient37 0 F 16 18 0 0
+38 Patient38 11 F 16 19 0 0
+39 Patient39 22 F 16 19 0 0
+40 Patient40 41 F 17 19 1 0
+41 Patient41 3 F 17 20 0 1
+42 Patient42 7 M 18 20 1 1
+43 Patient43 57 M 18 20 1 0
+44 Patient44 67 M 19 21 0 0
+45 Patient45 67 M 19 21 1 1
+46 Patient46 23 M 20 22 0 0
+47 Patient47 1 F 20 22 0 0
+48 Patient48 42 M 20 23 0 0
+49 Patient49 53 F 20 23 1 1
+50 Patient50 54 M 21 24 0 0
+51 Patient51 45 F 22 24 0 0
+52 Patient52 66 M 22 24 1 1
+53 Patient53 71 F 23 24 0 0
+54 Patient54 8 M 23 25 0 0
+55 Patient55 19 F 23 25 0 0
+56 Patient56 101 M 24 25 0 0
+57 Patient57 11 F 24 26 0 0
+58 Patient58 12 M 24 26 0 0
+59 Patient59 23 F 25 26 0 0
+60 Patient60 0 M 25 26 0 0
+61 Patient60 2 M 26 28 0 0
+62 Patient60 6 M 26 28 0 0
+63 Patient60 16 M 26 27 0 0
+64 Patient60 28 M 27 28 0 0
+65 Patient60 78 M 27 28 0 0
+66 Patient60 68 M 26 28 0 0
+67 Patient60 96 M 27 28 0 0
+68 Patient60 87 M 27 28 0 0
+69 Patient60 3 M 28 28 0 0
+
+
+END.

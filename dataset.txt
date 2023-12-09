@@ -15,7 +15,7 @@ ROOMS: ID, name, capac, dept, telemetry, oxygen
 21 R22 2 2 1 0
 22 R21 2 2 1 1
 
-BEDS: ID_bed + ID_room 
+BEDS: ID_bed + ID_room
 01 11
 02 11
 03 12
@@ -26,7 +26,7 @@ BEDS: ID_bed + ID_room
 08 22
 
 PATIENTS: ID, name, age, gender, admission_day, discharge_day, dept, telemetry, oxygen
-1 Patient1 98 M 0 0 0 0 0
+1 Patient1 98 M 0 10 0 0 0
 2 Patient2 82 M 0 5 1 1 1
 3 Patient3 43 M 0 1 0 0 0
 4 Patient4 88 F 0 4 1 0 0
