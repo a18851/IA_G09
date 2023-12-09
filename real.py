@@ -1,10 +1,9 @@
 import time
 from csp import *
-from dataset_parser2 import dataset_parser
-from graph import *
+from our_dataset_parser import dataset_parser
+from real_graph import *
 
-
-with open("dataset2.txt", "r") as file:
+with open("our_dataset.txt", "r") as file:
     dataset = file.read()
     bed_rooms, room_departments, patients_data = dataset_parser(dataset)
 
@@ -62,14 +61,6 @@ for p1 in range(1, len(patients) + 1):
     for p2 in range(1, len(patients) + 1):
         if p1 != p2 and not (patients_data[p1]['admission_day'] > patients_data[p2]['discharge_day'] or patients_data[p2]['admission_day'] > patients_data[p1]['discharge_day']):
             constraints.append(Constraint([f'patient{p1}', f'patient{p2}'], lambda a, b: a != b))
-
-# # Impressão das constraints formatadas
-# print("# Constraint: Pacientes não podem ocupar a mesma cama simultaneamente")
-# for constraint in constraints:
-#     print(constraint)
-
-# for domain_key, domain_value in domains.items():
-#     print(domain_key, domain_value)
 
 
 # Create CSP instance

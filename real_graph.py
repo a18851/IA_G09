@@ -40,6 +40,4 @@ def create_gantt_chart(solution, bed_rooms, patients_data):
     plt.ylabel('Camas')
     plt.title('Gráfico de Gantt da Solução do CSP')
 
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-
     plt.show()

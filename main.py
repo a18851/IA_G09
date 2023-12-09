@@ -3,16 +3,15 @@ from csp import *
 from dataset_parser import dataset_parser
 from graph import create_gantt_chart
 
-
+#Importe and open the dataset
 with open("dataset.txt", "r") as file:
     dataset = file.read()
     bed_rooms, room_departments, patients_data = dataset_parser(dataset)
 
 #Variables
-
 beds = [f'bed{i}' for i in range(1, 9)]
 patients = [f'patient{i}' for i in range(1, len(patients_data) + 1)]
-domains = {f'patient{i}': set(range(1, 9)) for i in range(1, 21)}
+domains = {f'patient{i}': set(range(1, len(bed_rooms) + 1)) for i in range(1, len(patients_data) + 1)}
 
 # Department
 for p in range(1, len(patients_data) + 1):
@@ -55,25 +54,13 @@ for p1 in range(1, len(patients) + 1):
         if p1 != p2 and not (patients_data[p1]['admission_day'] >= patients_data[p2]['discharge_day'] or patients_data[p2]['admission_day'] >= patients_data[p1]['discharge_day']):
             constraints.append(Constraint([f'patient{p1}', f'patient{p2}'], lambda a, b: a != b))
 
-# constraints.append(Constraint([f'patient{1}', f'patient{2}'], lambda a, b: a != b))
-# constraints.append(Constraint([f'patient{1}', f'patient{3}'], lambda a, b: a != b))
-# constraints.append(Constraint([f'patient{1}', f'patient{4}'], lambda a, b: a != b))
-# constraints.append(Constraint([f'patient{1}', f'patient{5}'], lambda a, b: a != b))
-# constraints.append(Constraint([f'patient{1}', f'patient{6}'], lambda a, b: a != b))
-
+#The following code was used to test the code
 # for domain_key, domain_value in domains.items():
 #     print(domain_key, domain_value)
 
-# Impressão das constraints formatadas
-print("# Constraint: Pacientes não podem ocupar a mesma cama simultaneamente")
-for constraint in constraints:
-    print(constraint)
-
-#Genero
-# for p1 in range(1, len(patients) + 1):
-#      for p2 in range(1, len(patients) + 1):
-#          if p1 != p2 and not(patients_data[p1]["gender"] == patients_data[p2]["gender"]):
-#              constraints.append(Constraint([f'patient{p1}', f'patient{p2}'], lambda a, b: a != b))
+# print("# Constraint: Pacientes não podem ocupar a mesma cama simultaneamente")
+# for constraint in constraints:
+#     print(constraint)
 
 # Create CSP instance
 csp = NaryCSP(domains, constraints)
