@@ -32,18 +32,16 @@ def dataset_parser(dataset):
                 break
 
             room_id = int(words[0])
-            room_name = ' '.join(words[1:-4])
-            room_gender = words[-4]
-            room_department = int(words[-3])
-            telemetry = int(words[-2])
-            oxygen = int(words[-1])
+            room_name = ' '.join(words[1:-3])
+            room_gender = words[-3]
+            room_department = int(words[-2])
+            intensive_care = int(words[-1])
 
             room_departments[room_id] = {
                 'name': room_name,
                 'gender': room_gender,
                 'dept': room_department,
-                'telemetry': telemetry,
-                'oxygen': oxygen
+                'intensive_care': intensive_care
             }
 
         elif current_section == 'BEDS':
@@ -61,13 +59,11 @@ def dataset_parser(dataset):
 
             patient_id = int(words[0])
             #patient_name = ' '.join(words[1:-7])
-            patient_age = int(words[-6])
-            patient_gender = words[-5]
-            admission_day = int(words[-4])
-            discharge_day = int(words[-3])
-            #dept = int(words[-3])
-            telemetry = int(words[-2])
-            oxygen = int(words[-1])
+            patient_age = int(words[-5])
+            patient_gender = words[-4]
+            admission_day = int(words[-3])
+            discharge_day = int(words[-2])
+            intensive_care = int(words[-1])
 
             patients_data[patient_id] = {
                 #'name': patient_name,
@@ -75,9 +71,7 @@ def dataset_parser(dataset):
                 'gender': patient_gender,
                 'admission_day': admission_day,
                 'discharge_day': discharge_day,
-                #'dept': dept,
-                'telemetry': telemetry,
-                'oxygen': oxygen
+                'intensive_care': intensive_care
             }
 
     return bed_rooms, room_departments, patients_data

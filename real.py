@@ -1,7 +1,6 @@
-import time
 from csp import *
 from our_dataset_parser import dataset_parser
-from real_graph import *
+from real_graph import create_gantt_chart
 
 with open("our_dataset.txt", "r") as file:
     dataset = file.read()
@@ -39,20 +38,10 @@ for p in range(1, len(patients_data) + 1):
 ## Telemetry
 for p in range(1, len(patients_data) + 1):
     for room_number, room_info in room_departments.items():
-         if room_info['telemetry'] == 0 and patients_data[p]['telemetry'] == 1:
+         if room_info['intensive_care'] == 0 and patients_data[p]['intensive_care'] == 1:
              matching_beds = [bed_number for bed_number, value in bed_rooms.items() if value == str(room_number)]
              for bed_number in matching_beds:
                  domains[f"patient{p}"].discard(bed_number)
-
-# Oxygen
-for p in range(1, len(patients_data) + 1):
-    for room_number, room_info in room_departments.items():
-        if room_info['oxygen'] == 0 and patients_data[p]['oxygen'] == 1:
-            matching_beds = [bed_number for bed_number, value in bed_rooms.items() if value == str(room_number)]
-            for bed_number in matching_beds:
-                domains[f"patient{p}"].discard(bed_number)
-                
-
 
 constraints = []
 
